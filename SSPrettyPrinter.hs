@@ -1,6 +1,6 @@
 module SSPrettyPrinter(show) where
 import LispVal
-
+import Data.Map as Map
 -----------------------------------------------------------
 --                    PRETTY PRINTER                     --
 -----------------------------------------------------------
@@ -12,11 +12,12 @@ instance Show LispVal where
   show (Number num) = show num
   show (String str) = "\"" ++ str ++ "\""
   show (Atom name) = name
-  show (List (Atom "lambda" : l)) = "lambda " ++ show (List l) 
   show (List l) = "(" ++ showListContents l ++ ")"
-  show (DottedList h t) = "(" ++ showListContents h ++ " . " ++ show t ++ ")"  
+  show (DottedList h t) = "(" ++ showListContents h ++ " . " ++ show t ++ ")"
+  show (Struct pMap) = "{" ++ showParametersList (toList pMap) ++ "}"
+  show (Lambda bindings body) = "lambda " ++ show (List bindings) ++ " " ++ show (List body) 
   show (Native p) = "<native procedure>"
-  show (Error s) = s
+  show (Error s) = "ERROR: " ++ s
   
 -- This function could be replaced by (unwords.map show). The unwords
 -- function takes a list of String values and uses them to build a 
@@ -26,3 +27,7 @@ showListContents [] = ""
 showListContents [a] = show a
 showListContents (a:as) = show a ++ " " ++ (showListContents as)
 
+showParametersList ::[(String, LispVal)] -> String
+showParametersList [] = ""
+showParametersList ((name, val):[]) = name ++ ": " ++ show val
+showParametersList ((name, val):as) = name ++ ": " ++ show val ++ ", " ++ showParametersList as

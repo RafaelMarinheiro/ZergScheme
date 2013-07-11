@@ -1,0 +1,14 @@
+(let
+	((x 2)
+	 (y 3))
+	(let
+		((x 7)
+			(z (+ x y)) 
+		 )
+		
+		(* z x)
+		)
+	)
+
+; Exemplo dado na especificação R5RS
+; => 35
