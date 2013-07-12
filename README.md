@@ -5,7 +5,7 @@ Haskell interpreter for an extremely small subset of Scheme. Useful as an assign
 
 To compile it, just run the following command:
   
-    gch ZergScheme
+    ghc ZergScheme
   
 
 To run a ZergScheme program, type the following command:
